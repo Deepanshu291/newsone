@@ -1,22 +1,6 @@
-# newsone
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
 
-![Logo](https://icon-library.com/images/icon-for-news/icon-for-news-6.jpg)
+<!-- ![Logo](https://icon-library.com/images/icon-for-news/icon-for-news-6.jpg) -->
 
 
 # NewsOne By Flutter
@@ -34,14 +18,15 @@ Install my-project with pub
   pub get
 ```
     
-## Demo
+## Screenshot
 
 Insert gif or link to demo
 
-
-## 🚀 About Me
-I'm a full stack developer...
-
+<p align="middle"> 
+ <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/20220709_092924.gif?raw=true" width="180" height="360">
+  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-1.jpeg?raw=true" width="180" height="360">
+  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-2.jpeg?raw=true" width="180" height="360">
+</p>
 
 ## Badges
 
