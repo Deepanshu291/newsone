@@ -10,6 +10,11 @@ This App is build on Cross Development kit which is Flutter.
 
 ## Installation
 
+
+Clone this repository
+   ```
+    git clone https://github.com/Deepanshu291/newsone.git
+   ```
 Install my-project with pub
 
 ```bash
@@ -20,7 +25,7 @@ Install my-project with pub
     
 ## Screenshot
 
-Insert gif or link to demo
+
 
 <p align="middle"> 
  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/20220709_092924.gif?raw=true" width="180" height="360">
@@ -38,7 +43,7 @@ Add badges from somewhere like: [shields.io](https://shields.io/)
 
 
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://katherinempeterson.com/)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/)
-[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://deepanshu291.github.io/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/deepanshu291/)
+[![Hackerank](https://img.shields.io/badge/-Hackerrank-2EC866?style=for-the-badge&logo=HackerRank&logoColor=white)](https://www.hackerrank.com/deepanshu2912001)
 
