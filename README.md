@@ -10,10 +10,10 @@ This App is build on Cross Development kit which is Flutter.
 
 ## Download
 
-
 [![Download Apk](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://drive.google.com/file/d/106mEiPZsc7u5HVWQyYQzvt1ouzgnBQDE/view)
 
 Install This Flutter by  [apk link](https://drive.google.com/file/d/106mEiPZsc7u5HVWQyYQzvt1ouzgnBQDE/view)
+
 ## Screenshot
 
 
