@@ -1,6 +1,7 @@
 
 
-  ![Logo](https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png) 
+<!--   ![Logo](https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png)  -->
+  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png" width="100" height="100">
 
 
 # NewsOne By Flutter
