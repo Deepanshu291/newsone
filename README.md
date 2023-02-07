@@ -1,10 +1,10 @@
 
 
 <!--   ![Logo](https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png)  -->
-  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png" width="100" height="100">
+  
 
 
-# NewsOne By Flutter
+# <center> <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png" width="100" height="100"> NewsOne By Flutter </center>
 
 This App is build on Cross Development kit which is Flutter.  
 
