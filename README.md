@@ -1,6 +1,6 @@
 
 
-<!--  ![Logo](https://icon-library.com/images/icon-for-news/icon-for-news-6.jpg)  -->
+  ![Logo](https://github.com/Deepanshu291/newsone/blob/master/assets/images/news.png) 
 
 
 # NewsOne By Flutter
