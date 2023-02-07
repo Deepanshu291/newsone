@@ -1,6 +1,6 @@
 
 
-<!-- ![Logo](https://icon-library.com/images/icon-for-news/icon-for-news-6.jpg) -->
+ ![Logo](https://icon-library.com/images/icon-for-news/icon-for-news-6.jpg) 
 
 
 # NewsOne By Flutter
@@ -8,6 +8,21 @@
 This App is build on Cross Development kit which is Flutter.  
 
 
+## Download
+
+
+[![Download Apk](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://drive.google.com/file/d/106mEiPZsc7u5HVWQyYQzvt1ouzgnBQDE/view)
+
+Install This Flutter by  [apk link](https://drive.google.com/file/d/106mEiPZsc7u5HVWQyYQzvt1ouzgnBQDE/view)
+## Screenshot
+
+
+
+<p align="middle"> 
+ <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/20220709_092924.gif?raw=true" width="180" height="360">
+  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-1.jpeg?raw=true" width="180" height="360">
+  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-2.jpeg?raw=true" width="180" height="360">
+</p>
 ## Installation
 
 
@@ -23,15 +38,7 @@ Install my-project with pub
   pub get
 ```
     
-## Screenshot
 
-
-
-<p align="middle"> 
- <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/20220709_092924.gif?raw=true" width="180" height="360">
-  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-1.jpeg?raw=true" width="180" height="360">
-  <img src ="https://github.com/Deepanshu291/newsone/blob/master/assets/images/Screenshot/ss-2.jpeg?raw=true" width="180" height="360">
-</p>
 
 ## Badges
 
