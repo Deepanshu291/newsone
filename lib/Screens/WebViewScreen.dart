@@ -14,6 +14,16 @@ class WebScreen extends StatefulWidget {
 
 class _WebScreenState extends State<WebScreen> {
   double progress = 0;
+
+ late final WebViewController controller;
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..loadRequest(Uri.parse(widget.news.pageurl));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +40,15 @@ class _WebScreenState extends State<WebScreen> {
             value: progress,
           ),
           Expanded(
-            child: WebView(
-              javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: widget.news.pageurl,
-              onProgress: (progress) => setState(() {
-                this.progress = progress/100;
-              }),
-            ),
+            child: 
+            WebViewWidget(controller: controller)
+            // WebView(
+            //   javascriptMode: JavascriptMode.unrestricted,
+            //   initialUrl: widget.news.pageurl,
+            //   onProgress: (progress) => setState(() {
+            //     this.progress = progress/100;
+            //   }),
+            // ),
           ),
         ],
       ),

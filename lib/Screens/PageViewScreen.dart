@@ -16,6 +16,7 @@ class pageview extends StatefulWidget {
 class _pageviewState extends State<pageview> {
   List<NewsApiModal> newslist = [];
   bool isloading = true;
+  int pageno =1;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _pageviewState extends State<pageview> {
   }
 
   getResource() {
-    getData().then((value) {
+    getData(pageno,'').then((value) {
       setState(() {
         if (value.isNotEmpty) {
           for (var element in value) {

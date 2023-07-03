@@ -12,7 +12,7 @@ class NewsCard extends StatefulWidget {
   String img = 'https://www.mtu.edu.np/images/noimg.png';
   NewsCard({Key? key, required this.size, required this.news})
       : super(key: key);
-
+  
   final Size size;
 
   @override
@@ -20,6 +20,7 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> {
+  late final imgurl = widget.news.imageurl;
   late var duration =
       DateTime.now().difference(DateTime.parse(widget.news.publishedAt));
   late String time = (duration.inHours >= 1)
@@ -28,7 +29,7 @@ class _NewsCardState extends State<NewsCard> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.news.description.isNotEmpty
+    return  widget.news.description.isNotEmpty
         ? GestureDetector(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => WebScreen(news: widget.news),)),
           child: Container(
@@ -60,11 +61,12 @@ class _NewsCardState extends State<NewsCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        
                         CachedNetworkImage(
                           width: double.infinity,
                           height: 200,
                           fit: BoxFit.cover,
-                          imageUrl: widget.news.imageurl,
+                          imageUrl: imgurl,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) => Center(
                             child: CircularProgressIndicator(
@@ -72,6 +74,9 @@ class _NewsCardState extends State<NewsCard> {
                           ),
                           errorWidget: (context, url, error) =>
                              const Icon(Icons.error),
+                          useOldImageOnUrlChange: true,
+                          
+                          
                         ),
                         Container(
                           padding:const EdgeInsets.only(left: 20,top: 10,right: 20),

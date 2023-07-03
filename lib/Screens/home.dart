@@ -13,28 +13,70 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var refreshkey = GlobalKey<RefreshIndicatorState>();
+
+  Future<void> refresh() async {
+    // isloading = true;
+    await Future.delayed(const Duration(seconds: 2));
+    // HomeScreen getResource();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: RefreshIndicator(
+          key: refreshkey,
+          onRefresh: () => refresh(),
+          child: HomeScreen(
+            size: size,
+          )),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   List<NewsApiModal> newslist = [];
   bool isloading = true;
-  var refreshkey = GlobalKey<RefreshIndicatorState>();
   int index = 0;
-
-  
+  int pageno = 1;
+  var nodata = false;
+  var categories;
+  final scrollcontroller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     getResource();
+    // print(scrollcontroller.offset);
+    scrollcontroller.addListener(() {
+      if (scrollcontroller.position.maxScrollExtent ==
+          scrollcontroller.offset) {
+        loadmore();
+      }
+    });
   }
 
-  Future<void> refresh() async {
-    // isloading = true;
-
-    await Future.delayed(const Duration(seconds: 2));
-    getResource();
+  @override
+  void dispose() {
+    scrollcontroller.dispose();
+    super.dispose();
   }
 
   getResource() {
-    getData().then((value) {
+    getData(pageno, categories).then((value) {
       setState(() {
         if (value.isNotEmpty) {
           newslist = value;
@@ -47,71 +89,94 @@ class _HomeState extends State<Home> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      
-      body: RefreshIndicator(
-          key: refreshkey,
-          onRefresh: () => refresh(),
-          child: HomeScreen(size: size, isloading: isloading, newslist: newslist)
-       
-          ),
-    );
+  // getcategory(category) {
+  //   getData(pageno, category).then((value) {
+  //     setState(() {
+  //       if (value.isNotEmpty) {
+  //         newslist = value;
+  //         isloading = false;
+  //       } else {
+  //         isloading = true;
+  //         getResource();
+  //       }
+  //     });
+  //   });
+  // }
+
+  Future<void> loadmore() async {
+    setState(() {
+      pageno += 1;
+    });
+    await getData(pageno, categories).then((value) {
+      setState(() {
+        if (value.isNotEmpty) {
+          newslist.addAll(value);
+          isloading = false;
+        } else {
+          nodata = true;
+        }
+      });
+    });
   }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    Key? key,
-    required this.size,
-    required this.isloading,
-    required this.newslist,
-  }) : super(key: key);
-
-  final Size size;
-  final bool isloading;
-  final List<NewsApiModal> newslist;
 
   @override
   Widget build(BuildContext context) {
     return isloading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(
-      children: [
-        Container(
-          color: Colors.transparent,
-          height: 80,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: category.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CategoryView(data: category[index],);
-            },
-          ),
-        ),
-        // CategoryView(),
-        Expanded(
-          child: SizedBox(
-            height: size.height,
-            width: double.infinity,
-            child:  ListView.builder(
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                height: 80,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: category.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () => setState(() {
+                        categories = category[index].title.toLowerCase();
+                        print(categories);
+                        newslist.clear();
+                        getResource();
+                      }),
+                      child: CategoryView(
+                        data: category[index],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // CategoryView(),
+              Expanded(
+                child: SizedBox(
+                  height: widget.size.height,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    controller: scrollcontroller,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: newslist.length,
+                    itemCount: newslist.length + 1,
                     itemBuilder: (BuildContext context, int index) {
                       // return PageViewScreen(size: size,);
-                      return NewsCard(
-                        size: size,
-                        news: newslist[index],
-                      );
+                      if (index < newslist.length) {
+                        return NewsCard(
+                          size: widget.size,
+                          news: newslist[index],
+                        );
+                      } else {
+                        if (!nodata) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }
+                      return null;
                     },
                   ),
-          ),
-        ),
-      ],
-    );
+                ),
+              ),
+            ],
+          );
   }
 }
