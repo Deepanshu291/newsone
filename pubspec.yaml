@@ -39,6 +39,7 @@ dependencies:
   webview_flutter: 
   share_plus: 
   flutter_launcher_icons: 
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

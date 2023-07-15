@@ -1,8 +1,8 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:newsone/Modal/NewsModal.dart';
 import 'package:newsone/Components/Pageview.dart';
-import 'package:newsone/Services/news_api.dart';
+import 'package:newsone/Providers/ApiProvider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
 class pageview extends StatefulWidget {
@@ -14,56 +14,42 @@ class pageview extends StatefulWidget {
 
 // ignore: camel_case_types
 class _pageviewState extends State<pageview> {
-  List<NewsApiModal> newslist = [];
-  bool isloading = true;
-  int pageno =1;
-
   @override
   void initState() {
     super.initState();
-    getResource();
-  }
+    var provider = Provider.of<NewsApiProvider>(context, listen: false);
 
-  getResource() {
-    getData(pageno,'').then((value) {
-      setState(() {
-        if (value.isNotEmpty) {
-          for (var element in value) {
-            if (element.description.isNotEmpty) {
-              newslist.add(element);
-              isloading = false;
-            }
-          }
-          // print(newslist.length);
-        } else {
-          isloading = true;
-          // print("List is Empty");
-          getResource();
-        }
-      });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.getAllData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return isloading
-        ? const Center(
+    return Consumer<NewsApiProvider>(
+      builder: (context, value, child) {
+        if (value.isloading) {
+          return const Center(
             child: CircularProgressIndicator(),
-          )
-        : SizedBox(
+          );
+        }
+        final news = value.news;
+        return SizedBox(
             height: size.height,
             child: PageView.builder(
-              itemCount: newslist.length,
+              itemCount: news.length,
               scrollDirection: Axis.vertical,
               itemBuilder: (BuildContext context, int index) {
-                return newslist.last.title.isNotEmpty
+                return news.last.title.isNotEmpty
                     ? PageViewScreen(
-                        news: newslist[index],
-                        nextnews: newslist[index + 1].title,
+                        news: news[index],
+                        nextnews: news[index + 1].title,
                       )
-                    : PageViewScreen(news: newslist[index], nextnews: "None");
+                    : PageViewScreen(news: news[index], nextnews: "None");
               },
             ));
+      },
+    );
   }
 }

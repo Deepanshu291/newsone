@@ -2,23 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:newsone/Components/Category.dart';
 import 'package:newsone/Components/card.dart';
 import 'package:newsone/Modal/Category.dart';
-import 'package:newsone/Modal/NewsModal.dart';
-import 'package:newsone/Services/news_api.dart';
+import 'package:newsone/Providers/ApiProvider.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class Home extends StatelessWidget {
+  Home({Key? key}) : super(key: key);
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   var refreshkey = GlobalKey<RefreshIndicatorState>();
 
-  Future<void> refresh() async {
-    // isloading = true;
-    await Future.delayed(const Duration(seconds: 2));
-    // HomeScreen getResource();
+  Future<void> refresh(BuildContext context) async {
+    var provider = Provider.of<NewsApiProvider>(context, listen: false);
+    provider.category = " ";
+    provider.getAllData();
   }
 
   @override
@@ -27,7 +23,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: RefreshIndicator(
           key: refreshkey,
-          onRefresh: () => refresh(),
+          onRefresh: () => refresh(context),
           child: HomeScreen(
             size: size,
           )),
@@ -48,24 +44,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<NewsApiModal> newslist = [];
-  bool isloading = true;
-  int index = 0;
-  int pageno = 1;
-  var nodata = false;
-  var categories;
   final scrollcontroller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    getResource();
-    // print(scrollcontroller.offset);
+    final provider = Provider.of<NewsApiProvider>(context, listen: false);
     scrollcontroller.addListener(() {
       if (scrollcontroller.position.maxScrollExtent ==
           scrollcontroller.offset) {
-        loadmore();
+        provider.loadmore();
       }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.getAllData();
     });
   }
 
@@ -75,108 +68,68 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  getResource() {
-    getData(pageno, categories).then((value) {
-      setState(() {
-        if (value.isNotEmpty) {
-          newslist = value;
-          isloading = false;
-        } else {
-          isloading = true;
-          getResource();
-        }
-      });
-    });
-  }
-
-  // getcategory(category) {
-  //   getData(pageno, category).then((value) {
-  //     setState(() {
-  //       if (value.isNotEmpty) {
-  //         newslist = value;
-  //         isloading = false;
-  //       } else {
-  //         isloading = true;
-  //         getResource();
-  //       }
-  //     });
-  //   });
-  // }
-
-  Future<void> loadmore() async {
-    setState(() {
-      pageno += 1;
-    });
-    await getData(pageno, categories).then((value) {
-      setState(() {
-        if (value.isNotEmpty) {
-          newslist.addAll(value);
-          isloading = false;
-        } else {
-          nodata = true;
-        }
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return isloading
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : Column(
-            children: [
-              Container(
-                color: Colors.transparent,
-                height: 80,
+    var provider = Provider.of<NewsApiProvider>(context, listen: false);
+    return Consumer<NewsApiProvider>(
+      builder: (context, value, child) {
+        if (value.isloading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final news = value.news;
+        return Column(
+          children: [
+            Container(
+              color: Colors.transparent,
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: category.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () => setState(() {
+                      var categories = category[index].title.toLowerCase();
+                      provider.getcategory(categories);
+                      print(categories);
+                    }),
+                    child: CategoryView(
+                      data: category[index],
+                    ),
+                  );
+                },
+              ),
+            ),
+            // CategoryView(),
+            Expanded(
+              child: SizedBox(
+                height: widget.size.height,
+                width: double.infinity,
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: category.length,
+                  controller: scrollcontroller,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: news.length + 1,
                   itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () => setState(() {
-                        categories = category[index].title.toLowerCase();
-                        print(categories);
-                        newslist.clear();
-                        getResource();
-                      }),
-                      child: CategoryView(
-                        data: category[index],
-                      ),
-                    );
+                    // return PageViewScreen(size: size,);
+                    if (index < news.length) {
+                      return NewsCard(
+                        size: widget.size,
+                        news: news[index],
+                      );
+                    } else {
+                      if (!news.isEmpty) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }
+                    return null;
                   },
                 ),
               ),
-              // CategoryView(),
-              Expanded(
-                child: SizedBox(
-                  height: widget.size.height,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    controller: scrollcontroller,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: newslist.length + 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      // return PageViewScreen(size: size,);
-                      if (index < newslist.length) {
-                        return NewsCard(
-                          size: widget.size,
-                          news: newslist[index],
-                        );
-                      } else {
-                        if (!nodata) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-            ],
-          );
+            ),
+          ],
+        );
+      },
+    );
   }
 }
