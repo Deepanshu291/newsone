@@ -117,6 +117,7 @@ class _NewsCardState extends State<NewsCard> {
                                     style:const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
+                                        overflow: TextOverflow.fade,
                                         color: Colors.white),
                                   ),
                                 ),
